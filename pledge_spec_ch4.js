@@ -120,14 +120,16 @@ describe('For a given promiseA (pA)', function(){
       var promiseB = promiseA.then(function(){
         return promiseZ;
       });
+      promiseB.name = "B";
+      promiseZ.name = "Z";
+      deferralA.$promise.name = "A";
       deferralA.resolve(); //sets promiseB to promiseZ
       deferralZ.resolve( 'testing' ); //resolves deferralZ, calling then on promiseB and promiseZ
-      console.log(promiseB);
       //promiseB = promiseZ;
       expect( promiseB.value ).toBe( 'testing' );
     });
 
-    xit("if pA's error handler returns promiseZ, pB mimics pZ", function(){
+    it("if pA's error handler returns promiseZ, pB mimics pZ", function(){
       var deferralZ = defer();
       var promiseZ = deferralZ.$promise;
       var promiseB = promiseA.catch(function(){
